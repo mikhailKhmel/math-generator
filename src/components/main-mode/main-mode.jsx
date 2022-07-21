@@ -17,11 +17,13 @@ import {connect} from 'react-redux';
 import {Generate} from '../../utils/generator.js';
 import Stats from '../stats/stats.jsx';
 import MenuIcon from '@mui/icons-material/Menu';
+import ProfileDialog from '../dialogs/profile-dialog.jsx';
 
 function MainMode(props) {
   const [examplesCount, setExamplesCount] = useState(10);
   const [level, setLevel] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const [startExamplesTour, setStartExamplesTour] = useState(false);
   const [error, setError] = useState('');
   const [openStats, setOpenStats] = useState(false);
@@ -67,12 +69,16 @@ function MainMode(props) {
       <Container maxWidth="xs">
         <YesNoDialog open={open} title={'Ты готов начать?'}
                      onAction={handleAnswer}/>
+        <ProfileDialog open={openProfile} action={() => setOpenProfile(false)}/>
         <Stack spacing={3}>
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="h6">Выбери уровень сложности</Typography>
             <IconButton onClick={handleOpenMenu}><MenuIcon/></IconButton>
             <Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
-              <MenuItem>Профиль</MenuItem>
+              <MenuItem onClick={() => {
+                handleCloseMenu();
+                setOpenProfile(true);
+              }}>Профиль</MenuItem>
               <MenuItem onClick={() => {
                 handleCloseMenu();
                 setOpenStats(true);

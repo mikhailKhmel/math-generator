@@ -5,6 +5,13 @@ function addUser(user) {
   };
 }
 
+function updateUser(user){
+  return {
+    type: 'UPDATE_USER',
+    payload: user
+  }
+}
+
 function changeStatistic(statistic) {
   return {
     type: 'CHANGE_STATISTIC',
@@ -12,4 +19,4 @@ function changeStatistic(statistic) {
   };
 }
 
-export {addUser, changeStatistic};
+export {addUser, changeStatistic, updateUser};
