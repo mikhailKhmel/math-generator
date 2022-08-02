@@ -7,7 +7,7 @@ import {Container} from '@mui/material';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Provider store={store}>
-  <Container maxWidth="xs">
+  <Container maxWidth="md">
     <App/>
   </Container>
 

@@ -106,7 +106,7 @@ function ExamplesTour(props) {
           <ButtonGroup>
             <Button color="error" variant="contained"
                     onClick={() => handleOpenDialog('Ты уверен?',
-                        'Весь твой прогресс исчезнет!!!',
+                         firstTime ? 'Весь твой прогресс исчезнет!!!' : '',
                         handleCloseExamplesTour)}>Выйти</Button>
             <Button color="success" variant="contained" onClick={finishTour}>Завершить
               тест</Button>
@@ -114,8 +114,14 @@ function ExamplesTour(props) {
           <Typography variant="h5">Пример №{examples[currInd].id}</Typography>
           <Typography variant="h5">{examples[currInd].str}</Typography>
           <TextField
-              onChange={(event) => setCurrValue(
-                  event.target.value === '' ? '' : parseInt(event.target.value))}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (isNaN(parseInt(value))) {
+                  setCurrValue('');
+                } else {
+                  setCurrValue(parseInt(value));
+                }
+              }}
               value={currValue}
               inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
               variant="outlined" size="small" label="Ответ"/>

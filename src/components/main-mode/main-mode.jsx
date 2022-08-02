@@ -66,7 +66,7 @@ function MainMode(props) {
   }
 
   return (
-      <Container maxWidth="xs">
+      <Container maxWidth="md">
         <YesNoDialog open={open} title={'Ты готов начать?'}
                      onAction={handleAnswer}/>
         <ProfileDialog open={openProfile} action={() => setOpenProfile(false)}/>

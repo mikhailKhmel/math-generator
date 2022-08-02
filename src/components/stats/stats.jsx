@@ -16,8 +16,17 @@ function Stats({statistic, onClose}) {
       (sum, value) => sum + value.examplesCount, 0);
   const easyCorrectCount = easyLevel.reduce(
       (sum, value) => sum + value.correctCount, 0);
-  const easyProc = (easyCorrectCount / easyExamplesCount) * 100;
-  const easyProcStr = isNaN(easyProc) ? '-' : `${Number((easyCorrectCount / easyExamplesCount) * 100).
+  let easyProc = NaN;
+  if (easyLevel.length !== 0) {
+    const easyProcList = [];
+    for (let i = 0; i < easyLevel.length; i++) {
+      const el = easyLevel[i];
+      easyProcList.push(el.correctCount / el.examplesCount);
+    }
+    easyProc = easyProcList.reduce((sum, value) => sum + value, 0) /
+        easyProcList.length;
+  }
+  const easyProcStr = isNaN(easyProc) ? '-' : `${Number(easyProc * 100).
       toFixed(0)}%`;
 
   const mediumLevel = statistic.filter(x => x.level === 1);
@@ -25,8 +34,17 @@ function Stats({statistic, onClose}) {
       (sum, value) => sum + value.examplesCount, 0);
   const mediumCorrectCount = mediumLevel.reduce(
       (sum, value) => sum + value.correctCount, 0);
-  const mediumProc = (mediumCorrectCount / mediumExamplesCount) * 100;
-  const mediumProcStr = isNaN(mediumProc) ? '-' : `${Number((mediumCorrectCount / mediumExamplesCount) * 100).
+  let mediumProc = NaN;
+  if (mediumLevel.length !== 0) {
+    const mediumProcList = [];
+    for (let i = 0; i < mediumLevel.length; i++) {
+      const el = mediumLevel[i];
+      mediumProcList.push(el.correctCount / el.examplesCount);
+    }
+    mediumProc = mediumProcList.reduce((sum, value) => sum + value, 0) /
+        mediumProcList.length;
+  }
+  const mediumProcStr = isNaN(mediumProc) ? '-' : `${Number(mediumProc * 100).
       toFixed(0)}%`;
 
   const hardLevel = statistic.filter(x => x.level === 2);
@@ -34,8 +52,17 @@ function Stats({statistic, onClose}) {
       (sum, value) => sum + value.examplesCount, 0);
   const hardCorrectCount = hardLevel.reduce(
       (sum, value) => sum + value.correctCount, 0);
-  const hardProc = (hardCorrectCount / hardExamplesCount) * 100;
-  const hardProcStr = isNaN(hardProc) ? '-' : `${Number((hardCorrectCount / hardExamplesCount) * 100).
+  let hardProc = NaN;
+  if (hardLevel.length !== 0) {
+    const hardProcList = [];
+    for (let i = 0; i < hardLevel.length; i++) {
+      const el = hardLevel[i];
+      hardProcList.push(el.correctCount / el.examplesCount);
+    }
+    hardProc = hardProcList.reduce((sum, value) => sum + value, 0) /
+        hardProcList.length;
+  }
+  const hardProcStr = isNaN(hardProc) ? '-' : `${Number(hardProc * 100).
       toFixed(0)}%`;
 
   return (
