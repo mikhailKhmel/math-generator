@@ -61,6 +61,7 @@ function ExamplesTour(props) {
         level: props.level,
         examplesCount: examples.length,
         correctCount: answers.filter(x => x.isCorrect).length,
+        createdDatetime: new Date()
       });
     }
 

@@ -7,8 +7,9 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow, Typography,
 } from '@mui/material';
+import History from './history.jsx';
 
 function Stats({statistic, onClose}) {
   const easyLevel = statistic.filter(x => x.level === 0);
@@ -68,6 +69,7 @@ function Stats({statistic, onClose}) {
   return (
       <Stack spacing={2}>
         <Button onClick={onClose} variant="outlined">Назад</Button>
+        <Typography variant="h5">Общая статистика</Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -100,6 +102,7 @@ function Stats({statistic, onClose}) {
             </TableBody>
           </Table>
         </TableContainer>
+        <History />
       </Stack>
 
   );
