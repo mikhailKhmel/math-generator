@@ -28,9 +28,6 @@ function History({statistic}) {
             </TableHead>
             <TableBody>
               {statistic.map((el, i) => {
-                let dt = el.createdDatetime || '';
-                dt = dt.replace('T', ' ');
-                dt = dt.replace('Z', ' ');
                 return (
                     <TableRow key={i}>
                       <TableCell>{i + 1}</TableCell>
@@ -39,7 +36,7 @@ function History({statistic}) {
                           : el.level === 2 ? 'Сложный' : ''}</TableCell>
                       <TableCell>{el.correctCount}</TableCell>
                       <TableCell>{el.examplesCount}</TableCell>
-                      <TableCell>{dt}</TableCell>
+                      <TableCell>{el.createdDatetime.toString() || ''}</TableCell>
                     </TableRow>
                 );
               })}
