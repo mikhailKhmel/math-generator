@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 function History({statistic}) {
-  console.log(statistic)
+  console.log(statistic);
   return (
       <>
         <Typography variant="h5">История</Typography>
@@ -36,7 +36,8 @@ function History({statistic}) {
                           : el.level === 2 ? 'Сложный' : ''}</TableCell>
                       <TableCell>{el.correctCount}</TableCell>
                       <TableCell>{el.examplesCount}</TableCell>
-                      <TableCell>{el.createdDatetime.toString() || ''}</TableCell>
+                      <TableCell>{el.createdDatetime !== undefined
+                          ? el.createdDatetime.toString() : ''}</TableCell>
                     </TableRow>
                 );
               })}
