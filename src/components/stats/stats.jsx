@@ -66,6 +66,16 @@ function Stats({statistic, onClose}) {
   const hardProcStr = isNaN(hardProc) ? '-' : `${Number(hardProc * 100).
       toFixed(0)}%`;
 
+  let overallResult = [];
+  for (let i = 0; i < statistic.length; i++) {
+    const el = statistic[i];
+    overallResult.push(el.correctCount / el.examplesCount);
+  }
+  const overallProc = overallResult.reduce((sum, value) => sum + value, 0) /
+      overallResult.length;
+  const overallProcStr = isNaN(overallProc) ? '-' : `${Number(overallProc * 100).
+      toFixed(0)}%`;
+
   return (
       <Stack spacing={2}>
         <Button onClick={onClose} variant="outlined">Назад</Button>
@@ -98,6 +108,12 @@ function Stats({statistic, onClose}) {
                 <TableCell>{hardExamplesCount}</TableCell>
                 <TableCell>{hardCorrectCount}</TableCell>
                 <TableCell>{hardProcStr}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Общий процент</TableCell>
+                <TableCell>-</TableCell>
+                <TableCell>-</TableCell>
+                <TableCell>{overallProcStr}</TableCell>
               </TableRow>
             </TableBody>
           </Table>
