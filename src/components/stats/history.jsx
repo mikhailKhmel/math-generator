@@ -24,6 +24,7 @@ function History({statistic}) {
                 <TableCell>Правильные решения</TableCell>
                 <TableCell>Всего решений</TableCell>
                 <TableCell>Когда была попытка?</TableCell>
+                <TableCell>Процент успеха</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -38,6 +39,8 @@ function History({statistic}) {
                       <TableCell>{el.examplesCount}</TableCell>
                       <TableCell>{el.createdDatetime !== undefined
                           ? el.createdDatetime.toString() : ''}</TableCell>
+                      <TableCell>{(el.correctCount / el.examplesCount) *
+                          100}%</TableCell>
                     </TableRow>
                 );
               })}
