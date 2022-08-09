@@ -10,6 +10,7 @@ import {
   TableRow, Typography,
 } from '@mui/material';
 import History from './history.jsx';
+import {getScore} from '../../utils/score.js';
 
 function Stats({statistic, onClose}) {
   const easyLevel = statistic.filter(x => x.level === 0);
@@ -22,13 +23,12 @@ function Stats({statistic, onClose}) {
     const easyProcList = [];
     for (let i = 0; i < easyLevel.length; i++) {
       const el = easyLevel[i];
-      easyProcList.push(el.correctCount / el.examplesCount);
+      easyProcList.push(getScore(el.correctCount / el.examplesCount));
     }
     easyProc = easyProcList.reduce((sum, value) => sum + value, 0) /
         easyProcList.length;
   }
-  const easyProcStr = isNaN(easyProc) ? '-' : `${Number(easyProc * 100).
-      toFixed(0)}%`;
+  const easyProcStr = isNaN(easyProc) ? '-' : `${Number(easyProc).toFixed(2)}`;
 
   const mediumLevel = statistic.filter(x => x.level === 1);
   const mediumExamplesCount = mediumLevel.reduce(
@@ -40,13 +40,12 @@ function Stats({statistic, onClose}) {
     const mediumProcList = [];
     for (let i = 0; i < mediumLevel.length; i++) {
       const el = mediumLevel[i];
-      mediumProcList.push(el.correctCount / el.examplesCount);
+      mediumProcList.push(getScore(el.correctCount / el.examplesCount));
     }
     mediumProc = mediumProcList.reduce((sum, value) => sum + value, 0) /
         mediumProcList.length;
   }
-  const mediumProcStr = isNaN(mediumProc) ? '-' : `${Number(mediumProc * 100).
-      toFixed(0)}%`;
+  const mediumProcStr = isNaN(mediumProc) ? '-' : `${Number(mediumProc).toFixed(2)}`;
 
   const hardLevel = statistic.filter(x => x.level === 2);
   const hardExamplesCount = hardLevel.reduce(
@@ -58,23 +57,21 @@ function Stats({statistic, onClose}) {
     const hardProcList = [];
     for (let i = 0; i < hardLevel.length; i++) {
       const el = hardLevel[i];
-      hardProcList.push(el.correctCount / el.examplesCount);
+      hardProcList.push(getScore(el.correctCount / el.examplesCount));
     }
     hardProc = hardProcList.reduce((sum, value) => sum + value, 0) /
         hardProcList.length;
   }
-  const hardProcStr = isNaN(hardProc) ? '-' : `${Number(hardProc * 100).
-      toFixed(0)}%`;
+  const hardProcStr = isNaN(hardProc) ? '-' : `${Number(hardProc).toFixed(2)}`;
 
   let overallResult = [];
   for (let i = 0; i < statistic.length; i++) {
     const el = statistic[i];
-    overallResult.push(el.correctCount / el.examplesCount);
+    overallResult.push(getScore(el.correctCount / el.examplesCount));
   }
   const overallProc = overallResult.reduce((sum, value) => sum + value, 0) /
       overallResult.length;
-  const overallProcStr = isNaN(overallProc) ? '-' : `${Number(overallProc * 100).
-      toFixed(0)}%`;
+  const overallProcStr = isNaN(overallProc) ? '-' : `${Number(overallProc).toFixed(2)}`;
 
   return (
       <Stack spacing={2}>
@@ -87,7 +84,7 @@ function Stats({statistic, onClose}) {
                 <TableCell>Уровень сложности</TableCell>
                 <TableCell>Всего решенных примеров</TableCell>
                 <TableCell>Всего правильно решенных примеров</TableCell>
-                <TableCell>Процент успеха</TableCell>
+                <TableCell>Средняя оценка</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -110,7 +107,7 @@ function Stats({statistic, onClose}) {
                 <TableCell>{hardProcStr}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>Общий процент</TableCell>
+                <TableCell>Общая средняя оценка</TableCell>
                 <TableCell>-</TableCell>
                 <TableCell>-</TableCell>
                 <TableCell>{overallProcStr}</TableCell>

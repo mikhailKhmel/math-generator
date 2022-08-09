@@ -12,12 +12,13 @@ import {connect} from 'react-redux';
 import * as actions from '../../actions/index.js';
 import {changeStatistic} from '../../actions/index.js';
 import {bindActionCreators} from 'redux';
+import {getScore} from '../../utils/score.js';
 
 function ExamplesTour(props) {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState(
       {title: '', content: '', action: null});
-  const [examples, setExamples] = useState(props.examples);
+  const [examples] = useState(props.examples);
   const [answers, setAnswers] = useState(props.examples.map(
       x => {return {id: x.id, value: '', isCorrect: null};}));
   const [currInd, setInd] = useState(0);
@@ -61,7 +62,7 @@ function ExamplesTour(props) {
         level: props.level,
         examplesCount: examples.length,
         correctCount: answers.filter(x => x.isCorrect).length,
-        createdDatetime: new Date()
+        createdDatetime: new Date(),
       });
     }
 
@@ -89,8 +90,8 @@ function ExamplesTour(props) {
       }
       const done = answers.every(x => x.isCorrect === true);
       const title = done ? 'Ты молодец! 😊' : 'Есть ошибки 😔';
-      const content = `Решено ${answers.filter(
-          x => x.isCorrect).length} из ${answers.length}`;
+      const content = `Твоя оценка: ${getScore(answers.filter(
+          x => x.isCorrect).length / answers.length)}\n`;
 
       handleOpenDialog(title, content, () => {fixAnswers();});
     }
@@ -107,7 +108,7 @@ function ExamplesTour(props) {
           <ButtonGroup>
             <Button color="error" variant="contained"
                     onClick={() => handleOpenDialog('Ты уверен?',
-                         firstTime ? 'Весь твой прогресс исчезнет!!!' : '',
+                        firstTime ? 'Весь твой прогресс исчезнет!!!' : '',
                         handleCloseExamplesTour)}>Выйти</Button>
             <Button color="success" variant="contained" onClick={finishTour}>Завершить
               тест</Button>
@@ -137,10 +138,12 @@ function ExamplesTour(props) {
                                      ? 'contained'
                                      : 'text')}`}
                                  color={fixMode ?
-                                     answers.find(x => x.id === element.id).isCorrect
+                                     answers.find(
+                                         x => x.id === element.id).isCorrect
                                          ? 'success'
                                          : 'error'
-                                     : answers.find(x => x.id === element.id).value !==
+                                     : answers.find(
+                                         x => x.id === element.id).value !==
                                      '' ? 'info' : 'inherit'}
                                  onClick={() => setInd(
                                      element.id - 1)}>{element.id}</Button>;
@@ -151,7 +154,7 @@ function ExamplesTour(props) {
 
         </Stack>
       </Container>
-      );
+  );
 }
 
 const mapDispatchToProps = (dispatch) => {

@@ -9,6 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import {getScore} from '../../utils/score.js';
 
 function History({statistic}) {
   console.log(statistic);
@@ -24,7 +25,7 @@ function History({statistic}) {
                 <TableCell>Правильные решения</TableCell>
                 <TableCell>Всего решений</TableCell>
                 <TableCell>Когда была попытка?</TableCell>
-                <TableCell>Процент успеха</TableCell>
+                <TableCell>Оценка</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -39,8 +40,8 @@ function History({statistic}) {
                       <TableCell>{el.examplesCount}</TableCell>
                       <TableCell>{el.createdDatetime !== undefined
                           ? el.createdDatetime.toString() : ''}</TableCell>
-                      <TableCell>{(el.correctCount / el.examplesCount) *
-                          100}%</TableCell>
+                      <TableCell>
+                        {getScore(el.correctCount / el.examplesCount)}</TableCell>
                     </TableRow>
                 );
               })}

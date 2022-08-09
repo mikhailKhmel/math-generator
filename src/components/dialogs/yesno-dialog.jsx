@@ -4,7 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
+  DialogTitle, Typography,
 } from '@mui/material';
 import React from 'react';
 
@@ -22,7 +22,12 @@ function YesNoDialog({open, title, content, onAction}) {
           {title}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>{content}</DialogContentText>
+          <DialogContentText>
+            <Typography variant="h5">
+              {content}
+            </Typography>
+
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => handleClose(false)}
