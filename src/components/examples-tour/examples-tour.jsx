@@ -90,7 +90,9 @@ function ExamplesTour(props) {
       }
       const done = answers.every(x => x.isCorrect === true);
       const title = firstTime ? done ? 'Ты молодец! 😊' : 'Есть ошибки 😔'
-          : done ? 'Молодец! Ты все исправил 😊' : 'Ещё есть ошибки 🤨';
+          : done ? `Молодец! Ты все ${props.sex === 'M'
+              ? 'исправил'
+              : 'исправила'} 😊` : 'Ещё есть ошибки 🤨';
       const content = firstTime && `Твоя оценка: ${getScore(answers.filter(
           x => x.isCorrect).length / answers.length)}\n`;
 
@@ -100,7 +102,9 @@ function ExamplesTour(props) {
     if (!firstTime) {
       handleShowResult();
     } else {
-      handleOpenDialog('Ты уверен?', '', handleShowResult, false);
+      handleOpenDialog(`Ты ${props.sex === 'M'
+          ? 'уверен'
+          : 'уверена'}?`, '', handleShowResult, false);
     }
   }
 
@@ -164,9 +168,15 @@ function ExamplesTour(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    sex: state.user.sex,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   const {changeStatistic} = bindActionCreators(actions, dispatch);
   return {changeStatistic};
 };
 
-export default connect(null, mapDispatchToProps)(ExamplesTour);
+export default connect(mapStateToProps, mapDispatchToProps)(ExamplesTour);

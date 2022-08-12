@@ -1,4 +1,4 @@
-import {Button, Stack, TextField, Typography} from '@mui/material';
+import {Button, ButtonGroup, Stack, TextField, Typography} from '@mui/material';
 import {useState} from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/index.js';
@@ -7,6 +7,7 @@ import {bindActionCreators} from 'redux';
 function FirstTime({addUser}) {
   const [name, setName] = useState('');
   const [age, setAge] = useState(0);
+  const [sex, setSex] = useState('M');
   const [error, setError] = useState({name: false, age: false});
 
   function checkErrors() {
@@ -21,11 +22,11 @@ function FirstTime({addUser}) {
     if (!checkErrors()) {
       return;
     }
-    addUser({name, age});
+    addUser({name, age, sex});
   }
 
   return (
-      <Stack spacing={2}>
+      <Stack spacing={2} alignItems="center">
         <Typography variant="h4">Привет! Ты первый раз здесь?</Typography>
         <TextField helperText={error.name && 'Имя не может быть пустым'}
                    error={error.name}
@@ -36,8 +37,16 @@ function FirstTime({addUser}) {
                    onChange={(event) => setAge(parseInt(event.target.value))}
                    type="number" label="Сколько тебе лет?" variant="filled"
                    size="small"/>
-        <Button onClick={handleAddNewUser}
+        <ButtonGroup>
+          <Button
+              variant={sex === 'M' ? 'contained' : 'outlined'}
+              onClick={() => setSex('M')}>Мальчик</Button>
+          <Button variant={sex === 'W' ? 'contained' : 'outlined'}
+                  onClick={() => setSex('W')}>Девочка</Button>
+        </ButtonGroup>
+        <Button onClick={handleAddNewUser} color="success"
                 variant="contained">Продолжить</Button>
+
       </Stack>
 
   );

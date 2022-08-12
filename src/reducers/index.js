@@ -5,14 +5,21 @@ const reducer = (state = initialState, action) => {
     case 'ADD_USER': {
       return {
         ...state,
-        ...action.payload,
+        user: {
+          name: action.payload.name,
+          age: action.payload.age,
+          sex: action.payload.sex,
+        },
       };
     }
     case 'UPDATE_USER': {
       return {
         ...state,
-        name: action.payload.name,
-        age: action.payload.age,
+        user: {
+          name: action.payload.name,
+          age: action.payload.age,
+          sex: action.payload.sex,
+        },
       };
     }
     case 'CHANGE_STATISTIC' : {

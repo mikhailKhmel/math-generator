@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,9 +14,10 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../../actions/index.js';
 
 function ProfileDialog(props) {
-  const {name, age, open, action, updateUser} = props;
+  const {name, age, sex, open, action, updateUser} = props;
   const [nameValue, setNameValue] = useState(name);
   const [ageValue, setAgeValue] = useState(age);
+  const [sexValue, setSexValue] = useState(sex);
   const [errors, setErrors] = useState({nameError: false, ageError: false});
 
   function handleSubmit() {
@@ -26,7 +28,7 @@ function ProfileDialog(props) {
       setErrors({...err});
       return;
     }
-    updateUser({name: nameValue, age: ageValue});
+    updateUser({name: nameValue, age: ageValue, sex: sexValue});
     action();
   }
 
@@ -40,13 +42,21 @@ function ProfileDialog(props) {
                    helperText={errors.nameError && 'Имя не может быть пустым'}
                    value={nameValue}
                    onChange={(event) => setNameValue(event.target.value)}
-                   label="Имя профиля"/>
+                   label="Как тебя зовут?"/>
         <TextField error={errors.ageError}
                    helperText={errors.ageError &&
                        'Доступный возраст от 5 до 10 лет'}
                    value={ageValue} type="number"
                    onChange={(event) => setAgeValue(
-                       parseInt(event.target.value))} label="Возраст"/>
+                       parseInt(event.target.value))}
+                   label="Сколько тебе лет?"/>
+        <ButtonGroup>
+          <Button
+              variant={sexValue === 'M' ? 'contained' : 'outlined'}
+              onClick={() => setSexValue('M')}>Мальчик</Button>
+          <Button variant={sexValue === 'W' ? 'contained' : 'outlined'}
+                  onClick={() => setSexValue('W')}>Девочка</Button>
+        </ButtonGroup>
       </Stack>
     </DialogContent>
     <DialogActions>
@@ -58,8 +68,9 @@ function ProfileDialog(props) {
 
 const mapStateToProps = (state) => {
   return {
-    name: state.name,
-    age: state.age,
+    name: state.user.name,
+    age: state.user.age,
+    sex: state.user.sex,
   };
 };
 
