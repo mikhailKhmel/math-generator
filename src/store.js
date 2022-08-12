@@ -4,7 +4,11 @@ import reducer from './reducers';
 function loadFromLocalStorage() {
   const data = localStorage.getItem('data');
   if (data === null) return undefined;
-  return JSON.parse(data);
+  const state = JSON.parse(data);
+  if (state.name !== undefined) {
+    state.user = {name: state.name, age: state.age, sex: 'M'};
+  }
+  return state;
 }
 
 const store = createStore(reducer, loadFromLocalStorage());
