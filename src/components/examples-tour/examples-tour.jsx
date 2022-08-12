@@ -17,7 +17,7 @@ import {getScore} from '../../utils/score.js';
 function ExamplesTour(props) {
   const [open, setOpen] = useState(false);
   const [dialogContent, setDialogContent] = useState(
-      {title: '', content: '', action: null});
+      {title: '', content: '', action: null, isAlert: false});
   const [examples] = useState(props.examples);
   const [answers, setAnswers] = useState(props.examples.map(
       x => {return {id: x.id, value: '', isCorrect: null};}));
@@ -70,14 +70,15 @@ function ExamplesTour(props) {
     setFixMode(true);
   }
 
-  function handleOpenDialog(title, content, action) {
-    setDialogContent({title, content, action});
+  function handleOpenDialog(title, content, action, isAlert) {
+    setDialogContent({title, content, action, isAlert});
     setOpen(true);
   }
 
   function finishTour() {
     if (answers.some(x => x.value === '')) {
-      handleOpenDialog('Не все примеры решены 🤨', '', () => {setOpen(false);});
+      handleOpenDialog('Не все примеры решены 🤨', '', () => {setOpen(false);},
+          true);
       return;
     }
 
@@ -88,14 +89,19 @@ function ExamplesTour(props) {
         answers[i].isCorrect = originalAnswer === userAnswer;
       }
       const done = answers.every(x => x.isCorrect === true);
-      const title = done ? 'Ты молодец! 😊' : 'Есть ошибки 😔';
-      const content = `Твоя оценка: ${getScore(answers.filter(
+      const title = firstTime ? done ? 'Ты молодец! 😊' : 'Есть ошибки 😔'
+          : done ? 'Молодец! Ты все исправил 😊' : 'Ещё есть ошибки 🤨';
+      const content = firstTime && `Твоя оценка: ${getScore(answers.filter(
           x => x.isCorrect).length / answers.length)}\n`;
 
-      handleOpenDialog(title, content, () => {fixAnswers();});
+      handleOpenDialog(title, content, () => {fixAnswers();}, true);
     }
 
-    handleOpenDialog('Ты уверен?', '', handleShowResult);
+    if (!firstTime) {
+      handleShowResult();
+    } else {
+      handleOpenDialog('Ты уверен?', '', handleShowResult, false);
+    }
   }
 
   return (
@@ -103,18 +109,20 @@ function ExamplesTour(props) {
         <Stack spacing={2}>
           <YesNoDialog open={open} title={dialogContent.title}
                        content={dialogContent.content}
+                       isAlert={dialogContent.isAlert}
                        onAction={dialogContent.action}/>
           <ButtonGroup>
             <Button color="error" variant="contained"
                     onClick={() => handleOpenDialog('Ты уверен?',
                         firstTime ? 'Весь твой прогресс исчезнет!!!' : '',
-                        handleCloseExamplesTour)}>Выйти</Button>
+                        handleCloseExamplesTour, false)}>Выйти</Button>
             <Button color="success" variant="contained" onClick={finishTour}>Завершить
               тест</Button>
           </ButtonGroup>
           <Typography variant="h5">Пример №{examples[currInd].id}</Typography>
           <Typography variant="h5">{examples[currInd].str}</Typography>
           <TextField
+              focused={true}
               onChange={(event) => {
                 const value = event.target.value;
                 if (isNaN(parseInt(value))) {

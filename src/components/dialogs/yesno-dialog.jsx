@@ -4,11 +4,12 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle, Typography,
+  DialogTitle,
+  Typography,
 } from '@mui/material';
 import React from 'react';
 
-function YesNoDialog({open, title, content, onAction}) {
+function YesNoDialog({open, title, content, isAlert = false, onAction}) {
   const handleClose = (answer) => {
     onAction(answer);
   };
@@ -30,8 +31,8 @@ function YesNoDialog({open, title, content, onAction}) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(false)}
-                  variant="outlined">Нет</Button>
+          {!isAlert ? <Button onClick={() => handleClose(false)}
+                             variant="outlined">Нет</Button> : null}
           <Button onClick={() => handleClose(true)} variant="contained">
             Да
           </Button>
