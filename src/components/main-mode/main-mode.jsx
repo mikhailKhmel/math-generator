@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonGroup,
   Container,
   IconButton,
   Menu,
@@ -21,7 +20,6 @@ import ProfileDialog from '../dialogs/profile-dialog.jsx';
 
 function MainMode(props) {
   const [examplesCount, setExamplesCount] = useState(10);
-  const [level, setLevel] = useState(0);
   const [open, setOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [startExamplesTour, setStartExamplesTour] = useState(false);
@@ -35,8 +33,6 @@ function MainMode(props) {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-  const levelNames = ['Легкий', 'Средний', 'Сложный'];
 
   function checkExamplesCount() {
     if (examplesCount > 50 || examplesCount < 1) {
@@ -54,11 +50,11 @@ function MainMode(props) {
   }
 
   if (startExamplesTour) {
-    const params = modeParams(props.user.age, level);
+    const params = modeParams(props.user.age);
     const examples = Generate(params.maxResult, 0, params.maxTerms, ['+', '-'],
         examplesCount);
     return <ExamplesTour onClose={() => setStartExamplesTour(false)}
-                         examples={examples} level={level}/>;
+                         examples={examples}/>;
   }
 
   if (openStats) {
@@ -82,7 +78,7 @@ function MainMode(props) {
               <MenuItem onClick={() => {
                 handleCloseMenu();
                 setOpenStats(true);
-              }}>Статистика</MenuItem>
+              }}>Статистика и история</MenuItem>
             </Menu>
           </Stack>
 
@@ -95,19 +91,6 @@ function MainMode(props) {
                 shrink: true,
               }} value={examplesCount || ''} type="number" variant="standard"
               label="Сколько примеров?"/>
-          <Stack direction="row" justifyContent="center">
-            <ButtonGroup>
-              {
-                levelNames.map((x, i) => {
-                  return <Button key={i} variant={`${(i !== level
-                      ? 'outlined'
-                      : 'contained')}`}
-                                 onClick={() => setLevel(i)}>{x}</Button>;
-                })
-              }
-            </ButtonGroup>
-
-          </Stack>
           <Button onClick={() => checkExamplesCount() ? setOpen(true) : null}
                   color="success"
                   variant="contained">ПОЕХАЛИ!</Button>

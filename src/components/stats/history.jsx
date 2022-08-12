@@ -12,7 +12,7 @@ import {
 import {getScore} from '../../utils/score.js';
 
 function History({statistic}) {
-  console.log(statistic);
+
   return (
       <>
         <Typography variant="h5">История</Typography>
@@ -21,7 +21,6 @@ function History({statistic}) {
             <TableHead>
               <TableRow>
                 <TableCell>Номер попытки</TableCell>
-                <TableCell>Уровень сложности</TableCell>
                 <TableCell>Правильные решения</TableCell>
                 <TableCell>Всего решений</TableCell>
                 <TableCell>Когда была попытка?</TableCell>
@@ -30,18 +29,18 @@ function History({statistic}) {
             </TableHead>
             <TableBody>
               {statistic.map((el, i) => {
+                const score = getScore(el.correctCount / el.examplesCount);
+                const textColor = score >= 4 ? 'green' : 'red';
+                const styleClass = {fontWeight: 'bold', color: textColor};
                 return (
                     <TableRow key={i}>
                       <TableCell>{i + 1}</TableCell>
-                      <TableCell>{el.level === 0 ? 'Легкий' : el.level === 1
-                          ? 'Средний'
-                          : el.level === 2 ? 'Сложный' : ''}</TableCell>
                       <TableCell>{el.correctCount}</TableCell>
                       <TableCell>{el.examplesCount}</TableCell>
                       <TableCell>{el.createdDatetime !== undefined
                           ? el.createdDatetime.toString() : ''}</TableCell>
                       <TableCell>
-                        {getScore(el.correctCount / el.examplesCount)}</TableCell>
+                        <Typography sx={styleClass}>{score}</Typography></TableCell>
                     </TableRow>
                 );
               })}

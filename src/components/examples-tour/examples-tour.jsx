@@ -59,7 +59,6 @@ function ExamplesTour(props) {
   function fixAnswers() {
     if (firstTime) {
       props.changeStatistic({
-        level: props.level,
         examplesCount: examples.length,
         correctCount: answers.filter(x => x.isCorrect).length,
         createdDatetime: new Date(),
