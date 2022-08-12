@@ -44,8 +44,14 @@ function ExamplesTour(props) {
 
     if (currInd + 1 < examples.length) {
       setInd(currInd + 1);
-    } else {
-      setInd(0);
+    }
+
+    if (answers.every(x => x.value !== '')) {
+      handleOpenDialog('Все примеры решены', 'Проверить?', (result) => {
+        if (result === true) {
+          finishTour();
+        }
+      }, false);
     }
   }
 
