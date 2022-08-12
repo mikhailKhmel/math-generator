@@ -53,7 +53,9 @@ function MainMode(props) {
 
   return (
       <Container maxWidth="md">
-        <YesNoDialog open={open} title={'Ты готов начать?'}
+        <YesNoDialog open={open} title={`Ты ${props.user.sex === 'M'
+            ? 'готов'
+            : 'готова'} начать?`}
                      onAction={handleAnswer}/>
         <ProfileDialog open={openProfile} action={() => setOpenProfile(false)}/>
         <Stack spacing={3}>
@@ -96,7 +98,7 @@ function MainMode(props) {
 
 const mapStateToProps = (state) => {
   return {
-    user: {...state},
+    user: {...state.user},
   };
 };
 
